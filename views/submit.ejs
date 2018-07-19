@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SPAM DETECTOR </title>
+
+		<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+
+<div class="container">
+  	<div class="row">
+    	<div class="col-md-12">
+      		<h1>Submit spam message to add to the database.</h1>
+      		<form method = "POST" action = "/thanks">
+				  
+				  <textarea class="form-control" rows="5" name="submission"  placeholder  = "Enter the message you know for sure is a spam to protect other people against it." ></textarea> <br>
+				  
+    	</div>
+    	
+    	    	<div class="col-md-12 ">
+    	    	    <h1>Enter the reason you consider this to be a spam message.</h1>
+ 		         <textarea class="form-control" rows="5" name="reason"  placeholder  = " You can enter the source based upon which you consider this message to be a spam." ></textarea> <br>
+ 		</div>
+    	
+    	<div class="col-md-12 align-self-end">
+ 			<span class = "pull-right"> <button type="submit" class="btn btn-primary"  >Submit</button> </span>
+ 		</div>
+ 		    </form>
+ 		    
+ 		        	<div class="col-md-12 align-self-end">
+ 			<a href = "/index">Go home</a>
+ 		</div>
+	</div>
+</div>   
+
+</body>
+</html>

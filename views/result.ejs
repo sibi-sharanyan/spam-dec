@@ -1,0 +1,6 @@
+<%  if (max > 0.7) { %> 
+<h1> "<%= inp %>" matches with "<%= match %>" with a similarity of about <%= max %> . The reason we consider it to be a spam is : "<%= reason %>" .</h1> 
+<% } else { %>
+<h1>Sorry the entered message was not found in our database we can't say for sure if its a spam or not! </h1>  
+<% } %> 
+<a href = "/index"> <h4>Go Back !</h4></a>
