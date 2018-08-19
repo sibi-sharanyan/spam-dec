@@ -1,3 +1,10 @@
+<% include partials/header %>
+
+
+<% if(userexist){ %>
+<h2>  The username you entered is already registered . Try logging in </h2>
+<% } %>
+
 <h1> Login with your credentials !</h1>
 
 <form action = "/login" method = "post">
@@ -7,3 +14,5 @@
 </form>
 
 <h4> New user ?  <a href = "/register"> sign up ! </a> </h4>
+
+<% include partials/footer %>

@@ -1,0 +1,13 @@
+<% include partials/header %>
+
+<h1>Registered Users - Date of registration</h1>
+<h1>Number of Registered users : <%= cnt %> </h1>
+   
+<% users.forEach(function(user)  { %> 
+
+<h2> <%= user.username %> ------ <%= user.date %> </h2>
+
+
+<% }); %> 
+
+<% include partials/footer %>

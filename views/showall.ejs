@@ -1,0 +1,14 @@
+<% include partials/header %>
+ 
+  
+  <h1>Spam - Reason</h1>
+  <h1>Total number of spams : <%= cnt %> </h1>
+   
+   <% spams.forEach(function(spam)  { %> 
+
+<h2> <%= spam.message %> - <%= spam.reason  %> - <%= spam.author %> - <%= spam.date %> </h2>
+
+
+<% }); %> 
+
+<% include partials/footer %>
