@@ -6,46 +6,16 @@ var express = require("express"),
   passport = require("passport"),
   LocalStrategy = require("passport-local"),
   passportLocalMongoose = require("passport-local-mongoose"),
-  user = require("./models/user") ,
-  Spam = require("./models/spam") ,
-  spamcnt ,
+  user = require("./models/user"),
+  Spam = require("./models/spam"), 
+  person = require("./models/userDetails") , 
+  spamcnt,
   usercnt;
-
-  Spam.find({} , function(err , spams)
-{
-  if(err)
-  {
-    console.log(err);
-  }
-  else
-  {
-    spamcnt = spams.length ;
-  }
-})
-
-user.find({} , function(err , users)
-{
-  if(err)
-  {
-    console.log(err);
-  }
-  else
-  {
-    usercnt = users.length;
-  }
-})
-
-
-
 
 mongoose.connect(
   "mongodb://localhost:27017/spamDB",
   { useNewUrlParser: true }
 );
-
-
-
-
 
 let max;
 let si;
@@ -69,8 +39,6 @@ passport.serializeUser(user.serializeUser());
 passport.deserializeUser(user.deserializeUser());
 passport.use(new LocalStrategy(user.authenticate()));
 
-
-
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
@@ -83,38 +51,66 @@ app.get("/", function(req, res) {
   res.redirect("/index");
 });
 
-
 // The landing page
 app.get("/index", function(req, res) {
-  res.render("front.ejs", { user: req.user , ucnt : usercnt , scnt : spamcnt });
+  Spam.find({}, function(err, spams) {
+    if (err) {
+      console.log(err);
+    } else {
+      spamcnt = spams.length;
+      user.find({}, function(err, users) {
+        if (err) {
+          console.log(err);
+        } else {
+          usercnt = users.length;
+          res.render("front.ejs", {
+            user: req.user,
+            ucnt: usercnt,
+            scnt: spamcnt
+          });
+        }
+      });
+    }
+  });
 });
-
-
 
 // Display form to register the user
 app.get("/register", function(req, res) {
-  res.render("register" );
+  res.render("register");
 });
 
 // Register the user
+var mail , uname;
 app.post("/register", function(req, res) {
   req.body.username;
   req.body.password;
+  mail = req.body.mail;
+  uname = req.body.username;
+
   user.register(
     new user({ username: req.body.username }),
     req.body.password,
     function(err, user) {
       if (err) {
         console.log(err);
-        if(err.name == "UserExistsError")
-        {
-          return res.render("login" , {userexist : true});
+        if (err.name == "UserExistsError") {
+          return res.render("login", { userexist: true });
         }
-        
       } else {
-        passport.authenticate("local")(req, res, function() {
-          res.redirect("/submit");
-        });
+        person.create( { id: user.id , spamCount: 0 , email: mail , name: uname} , function(err , per)
+      {
+        if(err)
+        {
+          console.log(err);
+        }
+        else
+        {
+          passport.authenticate("local")(req, res, function() {
+            res.redirect("/submit");
+          });
+        }
+      }) 
+        
       }
     }
   );
@@ -122,7 +118,7 @@ app.post("/register", function(req, res) {
 
 // Display login form to the user
 app.get("/login", function(req, res) {
-  res.render("login" , {userexist : false});
+  res.render("login", { userexist: false });
 });
 
 // Logging in the user
@@ -147,18 +143,67 @@ app.get("/submit", isLoggedIn, function(req, res) {
 });
 
 // Post the spam message to the database
+var msgid;
 app.post("/thanks", isLoggedIn, function(req, res) {
   var sub = req.body.submission;
   var rea = req.body.reason;
   var usr = req.user._id;
-  Spam.create({ message: sub, reason: rea }, function(err, spam) {
+
+  Spam.find({}, function(err, spam) {
     if (err) {
       console.log("Error");
     } else {
-      spam.authorid = req.user._id;
-      spam.author = req.user.username;
-      spam.save();
-      res.render("thanks.ejs", { sub: spam.message, rea: spam.reason });
+      max = 0;
+      spam.forEach(function(msg) {
+        if (msg.message != undefined) {
+          si = stringSimilarity.compareTwoStrings(msg.message, sub);
+          if (si > max) {
+            max = si;
+            matchedSpam = msg.message;
+            re = msg.reason;
+            msgid = msg._id;
+          }
+        }
+      });
+    }
+    if (max > 0.8) {
+      Spam.findById(msgid, function(err, msg) {
+        if (err) {
+          console.log(err);
+        } else {
+          msg.certainity = msg.certainity + 1;
+          msg.save();
+          res.render("already", { similar: matchedSpam, cert: max });
+        }
+      });
+    } else {
+      Spam.create({ message: sub, reason: rea, certainity: 1 }, function(
+        err,
+        spam
+      ) {
+        if (err) {
+          console.log("Error");
+        } else {
+          spam.authorid = req.user._id;
+          spam.author = req.user.username;
+          spam.save();
+          person.findOne({id: spam.authorid} , function(err , pers)
+          {
+            if(err)
+            {
+              console.log(err);
+            }
+            else{
+              pers.spamCount = pers.spamCount + 1;
+              pers.save();
+              res.render("thanks.ejs", { sub: spam.message, rea: spam.reason });
+            }
+          })
+          
+
+
+        }
+      });
     }
   });
 });
@@ -171,23 +216,25 @@ app.get("/showall", function(req, res) {
     } else {
       spamcnt = spam.length;
       console.log(spam);
-      res.render("showall.ejs", { spams: spam , cnt : spamcnt});
+      res.render("showall.ejs", { spams: spam, cnt: spamcnt });
     }
   });
 });
 
 // To show all the registered users
 app.get("/users", function(req, res) {
-  user.find({}, function(err, user) {
+  person.find({}, function(err, user) {
     if (err) {
       console.log(err);
     } else {
       usercnt = user.length;
-      res.render("alluser", { users: user , cnt : usercnt});
+
+      res.render("alluser", { users: user, cnt: usercnt });
     }
   });
 });
 
+// Result of a search by a user to check for spam
 app.post("/result", function(req, res) {
   var a = req.body.comment;
 

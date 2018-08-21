@@ -1,2 +1,4 @@
 node_modules/
 .vscode/
+TODO.txt
+package-lock.json

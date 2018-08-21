@@ -1,14 +1,32 @@
 <% include partials/header %>
  
+
+  <div class="container">
+    <h1>Spam Database</h1> 
+    <hr> 
+    <h1>Total number of spams : <%= cnt %> </h1>
+    <hr>
+    <div class="row">
+      <div class="col-md-12">
+        <% spams.forEach(function(spam)  { %> 
+          <div class="jumbotron">
+            <p> <strong>Spam message :</strong>   </p>
+              <p> <%= spam.message %>  </p>
+              <p> <strong>Reason to be considered fake :</strong>  </p>
+              <p> <%= spam.reason  %> </p> 
+              <p class = "right"><strong> Reported by :</strong> <i> <%= spam.author %></i> </p> 
+               <p class = "right">  <strong> Date : </strong>    <%= spam.date.getDate() + 1 %>  |    <%= spam.date.getMonth() + 1 %>  |  <%= spam.date.getFullYear() + 1 %> </p>
+               <p class = "right"> <strong>Certainity : </strong>  <%= spam.certainity %> </p>
+          </div>
+          <% }); %> 
+      </div>
+    </div>
+  </div>
   
-  <h1>Spam - Reason</h1>
-  <h1>Total number of spams : <%= cnt %> </h1>
    
-   <% spams.forEach(function(spam)  { %> 
-
-<h2> <%= spam.message %> - <%= spam.reason  %> - <%= spam.author %> - <%= spam.date %> </h2>
 
 
-<% }); %> 
+
+
 
 <% include partials/footer %>

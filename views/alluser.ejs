@@ -1,13 +1,37 @@
 <% include partials/header %>
 
-<h1>Registered Users - Date of registration</h1>
-<h1>Number of Registered users : <%= cnt %> </h1>
-   
-<% users.forEach(function(user)  { %> 
+<div class="container"> 
+    <h1>Registered Volunteers</h1>
+    <hr>
+    <h2>Number of Volunteers : <%= cnt %> </h2>
+    <hr>
+       
+    
 
-<h2> <%= user.username %> ------ <%= user.date %> </h2>
+        <% users.forEach(function(user)  { %> 
+    
+          <div class="jumbotron">
+          <p> <strong>Username :</strong>   </p>
+          <p> <%= user.name %>  </p>
+
+          <p> <strong>E-mail :</strong>   </p>
+          <p> <%= user.email %>  </p>
+
+          <p> <strong> Number of spams reported : </strong> </p>
+          <p> <%= user.spamCount %> <p>
+
+          <p> <strong> Member since </strong> </p>
+          <p> <%= user.date %> <p>
+          
+            </div>
+          <% }); %> 
+
+    
 
 
-<% }); %> 
+</div>
+
+
+
 
 <% include partials/footer %>
