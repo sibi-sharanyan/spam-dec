@@ -4,7 +4,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<h1>Enter the text you suspect to be spam.</h1>
+				<h3>Enter the text you suspect to be spam.</h3>
 				<form method="POST" action="/result">
 
 					<textarea class="form-control" rows="5" name="comment" placeholder="We will compare the entered message with the known spam messages in our database to check wheteher it is a spam or not."></textarea>					<br>
@@ -13,27 +13,24 @@
 				<span class="pull-right"> <button type="submit" class="btn btn-primary">Submit</button> </span>
 			</div>
 			</form>
+			<br>
 			<div class="col-md-12 align-self-end">
-				<h3>Number of known spam messages in our database :
-					<%= scnt %>
-				</h3> 
-				<h3>Number of Registered Volunteers :
-					<%= ucnt %>
-				</h3> <br>
+
+				</h4> <br>
 				<a href="/showall"> List of all spams ! </a> <br> <br>
 				<a href="/users"> List of all users ! </a> <br> <br>
 				<a href="/submit">Make your own submission!</a> <br><br>
 
-				<% if(user) { %>
-					<h5>Logged in as <strong> <%= user.username %> </strong> </h5>
-					<a href="/logout">Logout </a>
-					<% } else { %>
-						<a href="/register"> Register now!</a> <br><br>
-						<a href="/login"> Login ! </a>
-						<%	 } %>
+				<h4>Number of spam messages in our database :
+					<%= scnt %>
+				</h4> <br>
+				<h4> Number of Registered Volunteers :
+					<%= ucnt %>
+				</h4>
 
 			</div>
+
 		</div>
 	</div>
 
-	<!-- <% include partials/footer %> -->
+	<% include partials/footer %>

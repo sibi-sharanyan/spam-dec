@@ -15,8 +15,8 @@
               <p> <strong>Reason to be considered fake :</strong>  </p>
               <p> <%= spam.reason  %> </p> 
               <p class = "right"><strong> Reported by :</strong> <i> <%= spam.author %></i> </p> 
-               <p class = "right">  <strong> Date : </strong>    <%= spam.date.getDate() + 1 %>  |    <%= spam.date.getMonth() + 1 %>  |  <%= spam.date.getFullYear() + 1 %> </p>
-               <p class = "right"> <strong>Certainity : </strong>  <%= spam.certainity %> </p>
+               <p class = "right">  <strong> Date : </strong>    <%= spam.date.getDate()  %>  |    <%= spam.date.getMonth() + 1 %>  |  <%= spam.date.getFullYear()  %> </p>
+               <p class = "right"> <strong>Number of reports : </strong>  <%= spam.certainity %> </p>
           </div>
           <% }); %> 
       </div>

@@ -76,7 +76,7 @@ app.get("/index", function(req, res) {
 
 // Display form to register the user
 app.get("/register", function(req, res) {
-  res.render("register");
+  res.render("register" , {user: req.user} );
 });
 
 // Register the user
@@ -118,7 +118,7 @@ app.post("/register", function(req, res) {
 
 // Display login form to the user
 app.get("/login", function(req, res) {
-  res.render("login", { userexist: false });
+  res.render("login", { userexist: false , user: req.user});
 });
 
 // Logging in the user
@@ -139,7 +139,7 @@ app.get("/logout", function(req, res) {
 
 // Display form to submit the spam message by logged in user
 app.get("/submit", isLoggedIn, function(req, res) {
-  res.render("submit.ejs");
+  res.render("submit.ejs" , {user: req.user});
 });
 
 // Post the spam message to the database
@@ -196,7 +196,7 @@ app.post("/thanks", isLoggedIn, function(req, res) {
             else{
               pers.spamCount = pers.spamCount + 1;
               pers.save();
-              res.render("thanks.ejs", { sub: spam.message, rea: spam.reason });
+              res.render("thanks.ejs", { sub: spam.message, rea: spam.reason , user: req.user });
             }
           })
           
@@ -216,7 +216,7 @@ app.get("/showall", function(req, res) {
     } else {
       spamcnt = spam.length;
       console.log(spam);
-      res.render("showall.ejs", { spams: spam, cnt: spamcnt });
+      res.render("showall.ejs", { spams: spam, cnt: spamcnt , user: req.user });
     }
   });
 });
@@ -229,7 +229,7 @@ app.get("/users", function(req, res) {
     } else {
       usercnt = user.length;
 
-      res.render("alluser", { users: user, cnt: usercnt });
+      res.render("alluser", { users: user, cnt: usercnt , user: req.user });
     }
   });
 });
