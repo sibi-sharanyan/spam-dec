@@ -1,12 +1,21 @@
 <% include partials/header %>
 
 
-<div class="container"> 
-    <h1> The Fake message : <strong>"<%= sub %>"</strong>  has been entered into the database with the reason : <strong>"<%= rea %>" </strong>  </h1> <br><br>
-
-    <h2> Thank you for your submission ! </h2>
-</div>
+    <div class="container">
 
 
+        <div class="jumbotron jumbotron-fluid  headd">
+            <div class="container">
+                <h1 class="display-4">Your report has been submitted!</h1>
+                <p class="lead">The Fake message : <strong>"<%= sub %>"</strong> has been entered into the database with the reason
+                    : <strong>"<%= rea %>" </strong>. <br> Thank you for your submission! </p>
+            </div>
+        </div>
 
-<% include partials/footer %>
+
+
+    </div>
+
+
+
+    <% include partials/footer %>

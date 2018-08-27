@@ -177,7 +177,7 @@ app.post("/thanks", isLoggedIn, function(req, res) {
         }
       });
     } else {
-      Spam.create({ message: sub, reason: rea, certainity: 1 }, function(
+      Spam.create({ message: sub.trim(), reason: rea.trim(), certainity: 1 }, function(
         err,
         spam
       ) {
@@ -259,7 +259,7 @@ app.post("/result", function(req, res) {
         a + " matches with " + matchedSpam + " with a scale of " + max
       );
     }
-    res.render("result", { match: matchedSpam, max: max, inp: a, reason: re });
+    res.render("result", { match: matchedSpam, max: max, inp: a, reason: re , user: req.user });
   });
 });
 

@@ -1,10 +1,38 @@
 <% include partials/header %>
 
+<div class="container">
+  <%  if (max > 0.7) { %> 
 
-<%  if (max > 0.7) { %> 
-<h1> The message you entered ,  <strong> "<%= inp %>" </strong> matches with an existing know spam message in out database <strong>"<%= match %>" </strong> with a similarity of about <strong> <%= max %> </strong> . The reason we consider it to be a spam is : <strong> "<%= reason %>" </strong> .</h1> 
-<% } else { %>
-<h1>Sorry the entered message was not found in our database we can't say for sure if its a spam or not! </h1>  
-<% } %> 
+    
+
+      <div class="jumbotron jumbotron-fluid" id="found">
+          <div class="container">
+            <h1 class="display-4">The entered message is probably a spam!</h1>
+            <p class="lead">The message you entered matches with an existing known spam message in our database <strong>"<%= match.trim() %>" </strong> with a similarity of about <strong> <%=  Math.round(max*100)  %>% </strong>. The reason we consider it to be a spam is : <strong> "<%= reason %>" </strong> </p>
+          </div>
+          <hr>
+          <h1 class="display-4">Probability of spam!</h1>
+          <div class="progress">
+              <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: <%=  Math.round(max*100)  %>%"> <h1>  <%=  Math.round(max*100)  %>%</h1></div>
+            </div>
+        </div>
+
+        
+
+        <% } else { %>
+
+          <div class="jumbotron" id = "sorry" >
+              <div class="container">
+                <h1 class="display-4">No Known reports of spam!</h1>
+                <p class="lead">We can't say for sure if the entered message is a spam or not. If you feel that the message is probably a spam, then feel free to report it.</p>
+              </div>
+            </div>
+        <% } %> 
+
+    
+
+
+</div>
+
 
 <% include partials/footer %>
