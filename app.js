@@ -13,17 +13,17 @@ var express = require("express"),
   usercnt;
 
 mongoose.connect(
-  "mongodb://localhost:27017/spamDB",
+process.env.DATABASEURL  || "mongodb://localhost:27017/spamDB"  ,
   { useNewUrlParser: true }
 );
-
+ 
 let max;
 let si;
 let matchedSpam;
 let re;
 app.use(
   require("express-session")({
-    secret: "Sibi the great",
+    secret: process.env.SECRET || "sibi",
     resave: false,
     saveUninitialized: false
   })
