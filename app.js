@@ -121,7 +121,7 @@ app.get("/login", function(req, res) {
   res.render("login", { userexist: false , user: req.user});
 });
 
-// Logging in the user
+// Logging in the user 
 app.post(
   "/login",
   passport.authenticate("local", {
@@ -266,3 +266,6 @@ app.post("/result", function(req, res) {
 app.listen(process.env.PORT || 3000, process.env.IP, function() {
   console.log("The SpamDec Server Has Started!");
 });
+
+
+//Add Machine learning functionality to categorize the spam with the help of a python script 
